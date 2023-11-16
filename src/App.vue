@@ -1,12 +1,12 @@
 
 <template>
   <main>
-    <Input />
+    <NoteInput />
   </main>
 </template>
 
 <script setup>
-import Input from './components/Input.vue'
+import NoteInput from './components/NoteInput.vue'
 </script>
 
 <style scoped>
