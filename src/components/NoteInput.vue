@@ -1,39 +1,62 @@
 <template>
   <div class="input__container">
-    <input class="input__title" :class="{ 'open__input__title': isInputActive }" v-model="title" placeholder="Titre">
-    <textarea class="input__content" :class="{ 'open__input__content': isInputActive }" v-model="message"
-      @click="openInput" placeholder="Créer une note"></textarea>
+    <form @keyup.enter="submit" @submit.prevent="onSubmit">
+      <input class="input__title" :class="{ 'open__input__title': isInputActive }" v-model="title" placeholder="Titre">
+      <textarea class="input__content" :class="{ 'open__input__content': isInputActive }" v-model="content"
+        @click="openInput" placeholder="Créer une note"></textarea>
+    </form>
     <div class="button__container">
       <button class="close__button" :class="{ 'display__close__button': isInputActive }"
         @click="closeInput">Fermer</button>
     </div>
   </div>
+  <div class="card__container">
+    <NoteCard v-for="(card, index) in notes" :key="index" />
+  </div>
 </template>
 
 <script setup>
+import NoteCard from '@/components/NoteCard.vue'
 import { ref } from 'vue'
 
 const title = ref('');
-const note = ref({
-  title: String,
-  content: String
-})
+const content = ref('');
+const notes = ref([]);
+
+class Note {
+  constructor(title, content) {
+    this.title = title;
+    this.content = content;
+  }
+}
 
 const isInputActive = ref(false)
 
 const openInput = () => {
   isInputActive.value = true;
 }
+
+const addNewNote = () => {
+  if (title.value != '' && content.value != '') {
+    let new_note = new Note(title.value, content.value)
+    notes.value.push(new_note);
+    title.value = "";
+    content.value = "";
+  }
+}
+
 const closeInput = () => {
+  addNewNote()
   isInputActive.value = false;
 }
-console.log(isInputActive.value)
+
 
 </script>
 
 <style scoped>
 .input__container {
-  width: 100%;
+  width: 43%;
+  min-width: 340px;
   min-height: 46px;
   margin: 0 auto;
   color: #202124;
@@ -99,10 +122,17 @@ console.log(isInputActive.value)
   border-radius: 5px;
   cursor: pointer;
 }
+
 .close__button:hover {
-  background:rgba(95,99,104,0.039);
+  background: rgba(95, 99, 104, 0.039);
 }
+
 .display__close__button {
   display: block;
+}
+
+.card__container {
+  display: flex;
+  justify-content: start;
 }
 </style>
