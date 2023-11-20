@@ -1,14 +1,9 @@
-
-<template>
-  <main>
-    <NoteInput />
-  </main>
-</template>
-
 <script setup>
-import NoteInput from './components/NoteInput.vue'
+import Main from './components/Main.vue'
 </script>
 
-<style scoped>
+<template>
+  <Main />
+</template>
 
-</style>
+<style scoped></style>

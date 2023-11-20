@@ -1,13 +1,13 @@
+<script setup>
+
+</script>
+
 <template>
   <div class="note">
     <p class="note__title">Titre de la note</p>
     <p class="note__content">Contenu de la note</p>
   </div>
 </template>
-
-<script setup>
-
-</script>
 
 <style scoped>
 .note {
@@ -22,9 +22,11 @@
   width: 240px;
   margin: 20px 10px;
 }
+
 .note__title {
-    font-weight: 500;
+  font-weight: 500;
 }
+
 .note__content {
   padding-top: 12px;
   font-size: 0.9rem;
