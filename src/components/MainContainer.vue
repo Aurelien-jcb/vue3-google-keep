@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import NoteContainer from '@/components/NoteContainer.vue'
 </script>
 
@@ -8,5 +8,4 @@ import NoteContainer from '@/components/NoteContainer.vue'
   </main>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
