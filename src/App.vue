@@ -1,14 +1,21 @@
+<script setup lang="ts">
+import { ref } from "vue";
+
+import NoteForm from "./components/note/NoteForm.vue";
+import NoteList from "./components/note/NoteList.vue";
+
+import type { Note } from "./types/note";
+
+const notes = ref<Note[]>([]);
+
+const handleSubmit = (note: Note) => {
+  notes.value.push(note);
+};
+</script>
 
 <template>
   <main>
-    <NoteInput />
+    <NoteForm @submit="handleSubmit" />
+    <NoteList :notes="notes" />
   </main>
 </template>
-
-<script setup>
-import NoteInput from './components/NoteInput.vue'
-</script>
-
-<style scoped>
-
-</style>
