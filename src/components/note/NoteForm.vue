@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { nextTick, ref } from "vue";
-import type { Note } from "../../types/note";
-import { Button } from "../ui/button";
-import { useToast } from '@/components/ui/toast/use-toast'
+import type { Note } from "@/types/note";
+import { Button } from "@/components/ui/button";
+import store from '@/store/index'
 
 const emit = defineEmits<{ submit: [note: Note] }>();
 const noteDefaultValue: Note = { title: "", content: "" };
@@ -10,18 +10,17 @@ const fakeInput = ref<HTMLButtonElement>();
 const textarea = ref<HTMLTextAreaElement>();
 const isFormOpen = ref(false);
 const note = ref({ ...noteDefaultValue });
-const { toast } = useToast()
-
 
 const handleSubmit = async () => {
   if (isNoteValid(note.value.title, note.value.content)) {
     emit("submit", note.value);
+    store.dispatch("showToast", { message: "Note créée avec succès", success: true });
     resetForm();
     isFormOpen.value = false;
     await nextTick();
     fakeInput.value?.focus();
   } else {
-    handleErrorOnSubmit('Veuillez renseigner tous les champs afin de créer une nouvelle note.')
+    store.dispatch("showToast", { message: "Veuillez renseigner tous les champs afin de créer une nouvelle note.", success: false });
   }
 };
 
@@ -46,12 +45,6 @@ const resetForm = () => {
   note.value = { ...noteDefaultValue };
 };
 
-const handleErrorOnSubmit = (error : string) => {
-  toast({
-    description: error,
-    variant: "destructive"
-  });
-}
 
 </script>
 
@@ -66,13 +59,14 @@ const handleErrorOnSubmit = (error : string) => {
     <form v-else="isFormOpen" @submit.prevent="handleSubmit">
       <div>
         <label for="title-input" class="sr-only">Titre</label>
-        <input id="title-input" class="pb-5 font-medium text-base outline-none w-full border-none" type="text" placeholder="Titre"
-          v-model="note.title" />
+        <input id="title-input" class="pb-5 font-medium text-base outline-none w-full border-none" type="text"
+          placeholder="Titre" v-model="note.title" />
       </div>
 
       <div>
         <label for="content-input" class="sr-only">Contenu</label>
-        <textarea class="font-medium text-base p-0 h-16 resize-none outline-none w-full border-none" id="content-input" placeholder="Créer une note..." v-model="note.content" ref="textarea"></textarea>
+        <textarea class="font-medium text-base p-0 h-16 resize-none outline-none w-full border-none" id="content-input"
+          placeholder="Créer une note..." v-model="note.content" ref="textarea"></textarea>
       </div>
 
       <div class="button-container flex justify-between items-end mt-4">
