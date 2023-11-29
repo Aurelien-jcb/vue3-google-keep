@@ -16,4 +16,4 @@ const generateUniqueKey = () => {
       <NoteCard :title="title" :content="content" />
     </li>
   </ul>
-</template >
+</template >../../types

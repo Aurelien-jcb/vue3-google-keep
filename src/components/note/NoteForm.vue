@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { nextTick, ref } from "vue";
-import type { Note } from "@/types/note";
+import type { Note } from "@/types/index";
 import { Button } from "@/components/ui/button";
-import store from '@/store/index'
+import * as Utils from '@/lib/utils'
+import { useStore } from "vuex";
 
 const emit = defineEmits<{ submit: [note: Note] }>();
 const noteDefaultValue: Note = { title: "", content: "" };
@@ -10,11 +11,13 @@ const fakeInput = ref<HTMLButtonElement>();
 const textarea = ref<HTMLTextAreaElement>();
 const isFormOpen = ref(false);
 const note = ref({ ...noteDefaultValue });
+const store = useStore()
 
 const handleSubmit = async () => {
   if (isNoteValid(note.value.title, note.value.content)) {
     emit("submit", note.value);
-    store.dispatch("showToast", { message: "Note créée avec succès", success: true });
+    Utils.showToast(store, 'Note créée avec succès', true)
+    // store.dispatch("showToast", { message: "Note créée avec succès", success: true });
     resetForm();
     isFormOpen.value = false;
     await nextTick();
@@ -75,4 +78,4 @@ const resetForm = () => {
       </div>
     </form>
   </div>
-</template>
+</template>@/types
