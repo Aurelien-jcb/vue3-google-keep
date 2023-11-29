@@ -20,7 +20,7 @@ const mutations = {
 };
 
 const actions = {
-  showToast({ commit }: { commit: any }, payload: { message: string; success: boolean }) {
+  showToast({ commit }: { commit: Commit }, payload: { message: string; success: boolean }) {
     const variant = payload.success ? "default" : "destructive";
     commit("show_toast", { message: payload.message, variant });
   },
